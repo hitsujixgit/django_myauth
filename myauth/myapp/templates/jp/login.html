@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title_html %}
+User login form
+{% endblock %}
+{% block article_content %}
+    {% if user.is_authenticated %}
+    	<!-- Authenticated. -->
+        <h1>You are connected.</h1>
+        <p>Your email : {{ user.email }}</p>
+        <p><a href="/">Return to home</a></p>
+    {% else %}
+    	<!-- Not authenticated -->
+        <h1>User login form</h1>
+        <form method="post" action="{{ user_login }}">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <input type="submit" class="button" value="Login" />
+        </form>
+    {% endif %}
+{% endblock %}
