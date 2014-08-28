@@ -33,10 +33,8 @@ class MyUserCreationForm(forms.Form):
         password_bis = self.cleaned_data.get('password_bis')
         if password and password_bis and password != password_bis:
             raise forms.ValidationError("Passwords are not identical.")
-        user_check = User.objects.filter(username = username)
-        try:
-            user_check.get()
-        except Exception:
-            # when no exists duplicate username
-            return self.cleaned_data
-        raise forms.ValidationError("Duplicate user name!")
+        user_check = User.objects.filter(username = username).exists()
+        if user_check:
+            raise forms.ValidationError("Duplicate user name!")
+        return self.cleaned_data
+        
